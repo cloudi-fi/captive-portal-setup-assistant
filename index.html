@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cloudi-Fi - Captive Portal Setup Assistant</title>
+<meta name="description" content="Paste-ready controller configuration for a Cloudi-Fi captive portal, built from the Cloudi-Fi deployment KB.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Cloudi-Fi - Captive Portal Setup Assistant</h1>
+      <p class="sub">Pick the platform, paste the location's splash page URL, and get paste-ready CLI or a filled-in settings sheet built from that platform's Cloudi-Fi KB article.</p>
+    </div>
+    <div class="refresh">
+      <div class="rrow"><button class="primary" id="copyLink" type="button">Copy link</button></div>
+      <div class="src">Built from the <a href="https://help.cloudi-fi.com/hc/en-us/categories/9653616443037-Captive-Portal-deployment" target="_blank" rel="noopener">Cloudi-Fi Captive Portal deployment KB</a></div>
+      <div class="rrow"><span class="src" id="kbChecked"></span><button class="light" id="kbRefresh" type="button">Check KB for updates</button></div>
+      <div class="src" id="kbStatus" aria-live="polite"></div>
+    </div>
+  </header>
+
+  <div class="grid">
+    <div class="form">
+      <section class="card hero">
+        <h2>Platform</h2>
+        <label for="platform" hidden>Platform</label>
+        <select id="platform"></select>
+        <div class="meta" id="pmeta"></div>
+      </section>
+
+      <section class="card" id="urlCard">
+        <h2>Splash page URL</h2>
+        <div class="field">
+          <div class="lbl"><label for="url">URL</label><span class="tip" tabindex="0"><span class="tip-text" role="tooltip" id="url-tip">In the Cloudi-Fi console, open the location's menu and use "Copy Splash page URL". Its /sp/ part follows the platform: changing one changes the other.</span></span></div>
+          <textarea id="url" spellcheck="false" aria-describedby="url-tip">https://login.cloudi-fi.net/start/ch/acme/lh/demo</textarea>
+        </div>
+        <div class="field">
+          <div class="lbl"><label for="ch">Company hash</label><span class="tip" tabindex="0"><span class="tip-text" role="tooltip" id="ch-tip">The value after /ch/ in the URL. Editing it updates the URL, and the other way round.</span></span></div>
+          <input type="text" id="ch" spellcheck="false" autocomplete="off" aria-describedby="ch-tip">
+        </div>
+        <div class="field">
+          <div class="lbl"><label for="lh">Location hash</label><span class="tip" tabindex="0"><span class="tip-text" role="tooltip" id="lh-tip">The value after /lh/ in the URL. Editing it updates the URL, and the other way round.</span></span></div>
+          <input type="text" id="lh" spellcheck="false" autocomplete="off" aria-describedby="lh-tip">
+        </div>
+        <div id="urlStatus" class="status" hidden></div>
+      </section>
+
+      <section class="card">
+        <h2>Site</h2>
+        <div class="field">
+          <div class="lbl"><label for="loc">Location label</label><span class="tip" tabindex="0"><span class="tip-text" role="tooltip" id="loc-tip">Used in object names, e.g. Cloudi-Fi_Guest_PlantCity.</span></span></div>
+          <input type="text" id="loc" placeholder="PlantCity" spellcheck="false" aria-describedby="loc-tip">
+        </div>
+        <div class="field">
+          <div class="lbl"><label for="ssid">SSID</label></div>
+          <input type="text" id="ssid" value="Guest-WiFi" spellcheck="false">
+        </div>
+        <div class="field">
+          <div class="lbl"><label for="vlan">Guest VLAN</label><span class="tip" tabindex="0"><span class="tip-text" role="tooltip" id="vlan-tip">VLAN name or ID.</span></span></div>
+          <input type="text" id="vlan" value="guest" spellcheck="false" aria-describedby="vlan-tip">
+        </div>
+        <div class="field">
+          <div class="lbl"><label for="life">Session lifetime (min)</label><span class="tip" tabindex="0"><span class="tip-text" role="tooltip" id="life-tip">Match the session lifetime set on the Cloudi-Fi portal.</span></span></div>
+          <input type="number" id="life" min="1" value="720" aria-describedby="life-tip">
+        </div>
+        <div class="field" id="keyWrap">
+          <div class="lbl"><label for="ckey">Cloudi-Fi public / company key</label><span class="tip" tabindex="0"><span class="tip-text" role="tooltip" id="ckey-tip">Cloudi-Fi console › Settings › Company Account. Used as NAS-ID on this platform.</span></span></div>
+          <input type="text" id="ckey" spellcheck="false" placeholder="your-company-key" aria-describedby="ckey-tip">
+        </div>
+        <label class="check"><input type="checkbox" id="suffix" checked> Append location label to per-site object names</label>
+      </section>
+
+      <section class="card" id="radCard">
+        <h2>RADIUS</h2>
+        <div class="field">
+          <div class="lbl"><label for="region">Region</label></div>
+          <select id="region">
+            <option value="amer">AMER / EMEA</option>
+            <option value="apac">APAC</option>
+          </select>
+        </div>
+        <div class="field">
+          <div class="lbl"><label for="radCount">Servers</label></div>
+          <select id="radCount">
+            <option value="2">Primary + secondary</option>
+            <option value="4">All four</option>
+            <option value="1">Primary only</option>
+          </select>
+        </div>
+        <div class="field">
+          <div class="lbl"><label for="secret">Shared secret</label><span class="tip" tabindex="0"><span class="tip-text" role="tooltip" id="secret-tip">Provided by Cloudi-Fi. This page keeps it only in its own link, so share that link privately.</span></span></div>
+          <input type="password" id="secret" autocomplete="off" spellcheck="false" value="" aria-describedby="secret-tip">
+        </div>
+        <label class="check"><input type="checkbox" id="showSecret"> Show secret</label>
+      </section>
+
+      <section class="card" id="wgCard">
+        <h2>Walled garden <small id="wgCount"></small></h2>
+        <p class="hint">This platform's required Cloudi-Fi entries are always in. Turn on each login method the portal offers.</p>
+        <div class="chips" id="vendors"></div>
+        <div class="field" id="gRegWrap" hidden>
+          <div class="lbl"><label for="gReg">Google regional domains</label><span class="tip" tabindex="0"><span class="tip-text" role="tooltip" id="gReg-tip">One domain per line.</span></span></div>
+          <textarea id="gReg" spellcheck="false" placeholder="accounts.google.co.uk" aria-describedby="gReg-tip"></textarea>
+        </div>
+        <div class="field">
+          <div class="lbl"><label for="wg">Extra domains</label><span class="tip" tabindex="0"><span class="tip-text" role="tooltip" id="wg-tip">One domain per line.</span></span></div>
+          <textarea id="wg" spellcheck="false" placeholder="*.example-sso.com" aria-describedby="wg-tip"></textarea>
+        </div>
+        <div id="wgStatus" class="status" hidden></div>
+      </section>
+
+      <section class="card">
+        <h2>Troubleshooting inputs</h2>
+        <div class="field">
+          <div class="lbl"><label for="tMac">Test client MAC</label></div>
+          <input type="text" id="tMac" value="a4:83:e7:12:34:56" spellcheck="false">
+        </div>
+        <div class="field">
+          <div class="lbl"><label for="tIp">Test client IP</label></div>
+          <input type="text" id="tIp" value="10.20.0.50" spellcheck="false">
+        </div>
+        <div class="field">
+          <div class="lbl"><label for="tUser">RADIUS test username</label></div>
+          <input type="text" id="tUser" value="cftest" spellcheck="false">
+        </div>
+        <div class="field">
+          <div class="lbl"><label for="tPass">RADIUS test password</label></div>
+          <input type="text" id="tPass" value="cftest" spellcheck="false">
+        </div>
+        <p class="hint">These fill the troubleshooting commands. Cloudi-Fi will reject a made-up user. An Access-Reject still proves the server is reachable and the secret is right; a timeout means IP, firewall or secret.</p>
+      </section>
+
+      <section class="card" id="pfCard">
+        <h2 id="pfTitle">Platform settings</h2>
+        <div id="pfFields" style="display:flex;flex-direction:column;gap:12px"></div>
+      </section>
+    </div>
+
+    <div class="out" id="out"></div>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<!-- Plain scripts, no build step. Order matters: each file uses names defined by the ones above it. -->
+<script src="assets/js/config.js"></script>
+<script src="assets/js/generators.js"></script>
+<script src="assets/js/troubleshooting.js"></script>
+<script src="assets/js/platforms.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

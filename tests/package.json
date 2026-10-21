@@ -1,0 +1,11 @@
+{
+  "name": "captive-portal-setup-assistant-tests",
+  "private": true,
+  "description": "Browser tests for the Captive Portal Setup Assistant page. Not needed to run or publish the page.",
+  "scripts": {
+    "test": "node --test --test-concurrency=1 browser.test.js"
+  },
+  "devDependencies": {
+    "puppeteer-core": "23.11.1"
+  }
+}
