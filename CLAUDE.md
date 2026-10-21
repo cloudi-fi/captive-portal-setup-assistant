@@ -26,6 +26,8 @@ on the page, not the diff.
   Where the KB is unclear, contradicts itself, or the CLI is translated from GUI steps, write it as a
   `notes` entry or a `VERIFY:` comment in the generated CLI instead of guessing silently.
 - **Interface text is English**, short and plain. Action labels are short verbs ("Copy", "Copy link").
+- **Every color is a token** on `:root` in `assets/css/style.css`, with its dark-mode value set in both
+  dark blocks below it; rules use `var(--token)`. A new color means a new token with both values.
 
 ## How the page is built
 
