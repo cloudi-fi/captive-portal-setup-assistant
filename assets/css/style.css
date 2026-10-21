@@ -1,7 +1,7 @@
 /* Styles for the Captive Portal Setup Assistant. Colors are tokens on :root, redefined for dark mode below. */
 :root {
-  --bg: #f3f5f7; --panel: #ffffff; --ink: #17212b; --muted: #5b6875; --line: #d9e0e6;
-  --accent: #0b6e8a; --accent-ink: #ffffff; --accent-soft: #e2f0f4;
+  --bg: #fff; --panel: #ffffff; --ink: #17212b; --muted: #5b6875; --line: #d0d5dd;
+  --accent: #162a63; --accent-ink: #ffffff; --accent-soft: #e5e9f5;
   --term-bg: #0f1a22; --term-ink: #d6e4ec; --term-dim: #6f8796; --term-key: #7fd1e8; --term-val: #f0c987; --term-hot: #ff9e8a;
   --warn: #9a5b00; --warn-bg: #fff4e0; --ok: #1d7a46; --bad: #b3261e;
   --display: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
@@ -10,23 +10,23 @@
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
   --bg: #11171c; --panel: #182128; --ink: #e2e9ee; --muted: #93a3b0; --line: #2a3640;
-  --accent: #4fb3cf; --accent-ink: #0b1418; --accent-soft: #1b3440;
+  --accent: #8ba5ee; --accent-ink: #0b1418; --accent-soft: #1e2948;
   --term-bg: #0a1116; --term-ink: #d6e4ec; --term-dim: #5e7584; --term-key: #7fd1e8; --term-val: #f0c987; --term-hot: #ff9e8a;
   --warn: #f0b45a; --warn-bg: #2c2312; --ok: #5cc98a; --bad: #ff8a80; color-scheme: dark; } }
 :root[data-theme="dark"] {
   --bg: #11171c; --panel: #182128; --ink: #e2e9ee; --muted: #93a3b0; --line: #2a3640;
-  --accent: #4fb3cf; --accent-ink: #0b1418; --accent-soft: #1b3440;
+  --accent: #8ba5ee; --accent-ink: #0b1418; --accent-soft: #1e2948;
   --term-bg: #0a1116; --term-ink: #d6e4ec; --term-dim: #5e7584; --term-key: #7fd1e8; --term-val: #f0c987; --term-hot: #ff9e8a;
   --warn: #f0b45a; --warn-bg: #2c2312; --ok: #5cc98a; --bad: #ff8a80; color-scheme: dark; }
 
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
 img { max-width: 100%; }
-body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 14px; line-height: 1.5; }
+body { margin: 0; background: #f3f5f7; color: var(--ink); font-family: var(--body); font-size: 14px; line-height: 1.5; }
 .wrap { max-width: 1360px; margin: 0 auto; padding-block: 24px 48px;
   padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 header { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; margin-bottom: 20px; }
-h1 { font-family: var(--display); font-weight: 600; font-size: 26px; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+h1 { font-family: var(--display); font-weight: 600; font-size: 26px; letter-spacing: -0.01em; margin: 0; text-wrap: balance; color: #162a63;}
 .sub { color: var(--muted); margin: 2px 0 0; max-width: 64ch; }
 .src { font-size: 12px; color: var(--muted); }
 a { color: var(--accent); }
@@ -45,13 +45,13 @@ label { font-size: 12.5px; font-weight: 500; }
 .hint { font-weight: 400; color: var(--muted); font-size: 12px; }
 p.hint { margin: 0; }
 input[type=text], input[type=password], input[type=number], select, textarea {
-  font: 13px/1.4 var(--mono); color: var(--ink); background: var(--bg); border: 1px solid var(--line);
+  font: 13px/1.4 var(--mono); color: var(--ink); background: var(--bg); border: 1px solid #98a2b3;
   border-radius: 6px; padding: 8px 10px; width: 100%; min-width: 0; }
 select { font-family: var(--body); }
 #platform { font: 600 14px var(--body); padding: 10px; }
 textarea { resize: vertical; min-height: 60px; }
 #url { min-height: 72px; font-size: 12.5px; word-break: break-all; }
-input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible { outline: 0; border-color: #6886dd; box-shadow: 0 0 0 3px #a0c0f9; }
 .check { display: flex; align-items: flex-start; gap: 8px; font-weight: 400; }
 .check input { margin-top: 3px; accent-color: var(--accent); }
 .meta { display: flex; flex-wrap: wrap; gap: 6px; }
